@@ -1,257 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="keywords"
-      content="task manager, task, to-do lists, productivity"
-    />
-    <meta
-      name="description"
-      content="Task manager to edit, delete, create tasks and to-do lists"
-    />
-    <meta name="author" content="Begoña" />
-    <title>To-do app</title>
 
-    <style>
-      * {
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        font-family: poppins;
-        color: green;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="task manager, task, to-do lists, productivity" />
+  <meta name="description" content="Task manager to edit, delete, create tasks and to-do lists" />
+  <meta name="author" content="Begoña" />
+  <title>To-do app</title>
 
-      .Menu {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        position: fixed;
-        bottom: 0rem;
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      font-family: poppins;
+      color: green;
+    }
 
-        width: 100%;
-        height: 3rem;
+    .Menu {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      position: fixed;
+      bottom: 0rem;
 
-        gap: 2rem;
-        background-color: rgb(193, 209, 11);
-      }
+      width: 100%;
+      height: 3rem;
 
-      .Menu-btn {
-        font-size: 1.2rem;
-        border: none;
-        background-color: rgb(193, 209, 11);
-        cursor: pointer;
-      }
+      gap: 2rem;
+      background-color: rgb(193, 209, 11);
+    }
 
-      .Body {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: rgb(249, 253, 207);
-      }
+    .Menu-btn {
+      font-size: 1.2rem;
+      border: none;
+      background-color: rgb(193, 209, 11);
+      cursor: pointer;
+    }
 
-      .H1 {
-        display: flex;
-        justify-content: center;
-        font-size: 1rem;
-        margin-top: 1rem;
-      }
+    .Body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: rgb(249, 253, 207);
+    }
 
-      .Main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .H1 {
+      display: flex;
+      justify-content: center;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
 
-        margin: 3rem 0rem;
-        gap: 1rem;
-      }
+    .Main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      .Lista {
-        margin: 1rem;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        gap: 1rem;
-      }
+      margin: 3rem 0rem;
+      gap: 1rem;
+    }
 
-      .Btn-delete {
-        background-color: rgb(255, 244, 244);
-        border: none;
-        width: 1.4rem;
-        height: 1.4em;
-        border-radius: 1.2rem;
-        margin-right: 1rem;
-        cursor: pointer;
-      }
+    .Lista {
+      margin: 1rem;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      gap: 1rem;
+    }
 
-      .Btn-checkbox {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-       background-color: white;  
-        border: 1px solid #4CAF50;
-        cursor: pointer;
-        appearance: none;
-        -webkit-appearance: none;
-      }
+    .Btn-delete {
+      background-color: rgb(255, 244, 244);
+      border: none;
+      width: 1.4rem;
+      height: 1.4em;
+      border-radius: 1.2rem;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
 
-      .Btn-checkbox:checked {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: #4CAF50;  
-        border: none;
-        cursor: pointer;
-        appearance: none;
-        -webkit-appearance: none;
-      }
+    .Btn-complete {
+      padding: 0.5rem;
+      border-radius: 1.2rem;
+      border: none;
+      box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+      cursor: pointer;
+    }
 
-      .Form-btn {
-        font-weight: bold;
-        background-color: green;
-        color: rgb(255, 255, 255);
-        padding: 0.5rem;
-        border-radius: 1.2rem;
-        border: none;
-        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
-        cursor: pointer;
-      }
+    .Btn-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      border: 1px solid #4CAF50;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
 
-      .Form-write {
-        width: 18rem;
-        font-style: italic;
-        background-color: rgb(255, 255, 255);
-        color: rgb(85, 85, 85);
-        padding: 0.5rem;
-        border-radius: 1.2rem;
-        border: none;
-        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
-        cursor: pointer;
-      }
-    </style>
-  </head>
+    .Btn-checkbox:checked {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      border: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
 
-  <body class="Body">
-    <header>
-      <h1 class="H1">All your tasks</h1>
-    </header>
+    .Form-write {
+      width: 18rem;
+      font-style: italic;
+      background-color: rgb(255, 255, 255);
+      color: rgb(85, 85, 85);
+      padding: 0.5rem;
+      border-radius: 1.2rem;
+      border: none;
+      box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+      cursor: pointer;
+    }
 
-    <main class="Main">
-      <div class="Lista">
-        <ul id="listaTareas">
-          <li>Add your new task</li>
-          <!-- <li>Tarea 1</li>
+    .Form-btn {
+      font-weight: bold;
+      background-color: green;
+      color: rgb(255, 255, 255);
+
+
+      padding: 0.5rem;
+      border-radius: 1.2rem;
+      border: none;
+      box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="Body">
+  <header>
+    <h1 class="H1">All your tasks</h1>
+  </header>
+
+  <main class="Main">
+    <div class="Lista">
+      <ul id="listaTareas">
+        <li>Add your new task</li>
+        <!-- <li>Tarea 1</li>
                 <li>Tarea 2</li> -->
-        </ul>
-      </div>
+      </ul>
+    </div>
 
-      <form id="formTarea" class="Form">
-        <input
-          id="txtTarea"
-          type="text"
-          name="tuTarea"
-          placeholder="Add your task"
-          class="Form-write"
-        />
-        <button type="submit" class="Form-btn">Add</button>
-      </form>
-    </main>
+    <form id="formTarea" class="Form">
+      <input id="txtTarea" type="text" name="tuTarea" placeholder="Add your task" class="Form-write" />
+      <button type="submit" class="Form-btn">Add</button>
+    </form>
+  </main>
 
-    <menu class="Menu">
-      <button class="Menu-btn">To-do</button>
-      <button class="Menu-btn">All</button>
-      <button class="Menu-btn">Profile</button>
-    </menu>
+  <menu class="Menu">
+    <button class="Menu-btn">To-do</button>
+    <button class="Menu-btn">All</button>
+    <button class="Menu-btn">Profile</button>
+  </menu>
 
-    <script>
-      // -----------------------------------------------
-      // 0. Comentarios y documentación
-      // -----------------------------------------------
-      /* 
-            Vamos a realizar un ToDo List para prácticar el uso de Objetos y Arrays.
-        
-        */
+  <script>
+    // -----------------------------------------------
+    // 0. Comentarios y documentación
+    // -----------------------------------------------
+    /* 
+          Vamos a realizar un ToDo List para prácticar el uso de Objetos y Arrays.
+      
+      */
 
-      // -----------------------------------------------
-      // 1. Constantes y Variables
-      // -----------------------------------------------
-      const formu = document.getElementById("formTarea");
-      const txtTarea = document.getElementById("txtTarea");
-      const boxTareas = document.getElementById("listaTareas");
+    // -----------------------------------------------
+    // 1. Constantes y Variables
+    // -----------------------------------------------
+    const formu = document.getElementById("formTarea");
+    const txtTarea = document.getElementById("txtTarea");
+    const boxTareas = document.getElementById("listaTareas");
 
-      const listaDeTareas = [
-        { id: 1, titulo: "Comprar palomitas", isCompletada: true },
-        { id: 2, titulo: "Regar las plantas", isCompletada: true },
-        { id: 3, titulo: "Conseguir el anillo de Frodo", isCompletada: false },
-        { id: 4, titulo: "Bailar la macarena", isCompletada: false },
-      ];
+    const listaDeTareas = [
+      { id: 1, titulo: "Comprar palomitas", isCompletada: true },
+      { id: 2, titulo: "Regar las plantas", isCompletada: true },
+      { id: 3, titulo: "Conseguir el anillo de Frodo", isCompletada: false }
 
-      // -----------------------------------------------
-      // 2. Funciones utilitarias (reutilizables)
-      //      * esto también se suele hacer en un archivo aparte por ej: utils.js
-      // -----------------------------------------------
+    ];
 
-      // -----------------------------------------------
-      // 3. Funciones principales de nuestra web/programa/app
-      // -----------------------------------------------
+    // -----------------------------------------------
+    // 2. Funciones utilitarias (reutilizables)
+    //      * esto también se suele hacer en un archivo aparte por ej: utils.js
+    // -----------------------------------------------
 
-      function mostrarTareas() {
-        // borra todo el contenido de la caja antes de mostrar
-        boxTareas.innerHTML = "";
+    // -----------------------------------------------
+    // 3. Funciones principales de nuestra web/programa/app
+    // -----------------------------------------------
 
-        // cargamos las nuevas tareas
-        listaDeTareas.forEach((tarea) => {
-          console.log("Tarea es: ", tarea);
+    function mostrarTareas() {
+      // borra todo el contenido de la caja antes de mostrar
+      boxTareas.innerHTML = "";
 
-          const titulo = tarea.titulo;
-          const id = tarea.id;
+      // cargamos las nuevas tareas
+      listaDeTareas.forEach((tarea) => {
+        console.log("Tarea es: ", tarea);
 
-          // convierte esta linea para que isChecked sea igual a "checked" o a  ""
-          const isChecked = tarea.isCompletada ? "checked" : "";
+        const titulo = tarea.titulo;
+        const id = tarea.id;
 
-          boxTareas.innerHTML += `
+        // convierte esta linea para que isChecked sea igual a "checked" o a  ""
+        const isChecked = tarea.isCompletada ? "checked" : "";
+
+        boxTareas.innerHTML += `
                 <li class="Lista">
-                    <button onclick="eliminarTarea(${id})" class="Btn-delete">X</button>
+                  <button onclick="eliminarTarea(${id})" class="Btn-delete" id=deleteBtn> X </button>
 
-                  <input type="checkbox" id="${id}" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
+                  <input type="checkbox" id="${id} checkedTask" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
 
-                    <label for="${id}">${titulo}</label>
-
-                  
- 
+                  <label for="${id}"> (${id}) ${titulo} </label>
+                  <button onclick="completarTarea(${id})" class="Btn-complete">Complete</button>
                 </li>
-                `; //  <button onclick="completarTarea(${id})">Completar</button>
-        });
+                `;
+      });
+    }
+
+    function agregarTarea() {
+      const nuevaTarea = txtTarea.value.trim(); // value es el texto que pone el user  
+      console.log(nuevaTarea);
+
+      // Tarea inválida (hacemos un return)
+      if (nuevaTarea == "") {
+        alert("Por Favor, ingresa una tarea válida");
+        return;
       }
 
-      function agregarTarea() {
-        const nuevaTarea = txtTarea.value.trim(); // el texto del input
-        console.log(nuevaTarea);
+      // Tarea válida
+      txtTarea.value = ""; // limpiar mi input
 
-        // Tarea inválida (hacemos un return)
-        if (nuevaTarea == "") {
-          alert("Por Favor, ingresa una tarea válida");
-          return;
-        }
+      const nuevoID = parseInt(Math.random() * 100);
+      const objetoTarea = { id: nuevoID, titulo: nuevaTarea, isCompletada: false }
+      listaDeTareas.push(objetoTarea); // push() es para agregar nuevo item a la lista
+      mostrarTareas();
+    }
 
-        // Tarea válida
-        txtTarea.value = ""; // limpiar mi input
-        listaDeTareas.push(nuevaTarea); // push() es para agregar nuevo item a la lista
-        mostrarTareas();
-      }
 
-      function eliminarTarea(idTarea) {
-        alert("Eliminar tarea: " + idTarea);
-        // Modificar mi lista, y eliminar la tarea idTarea
+    function eliminarTarea(idTarea) {
+      alert("Eliminar tarea: " + idTarea);
 
-        mostrarTareas();
-      }
+      // Modificar mi lista, y eliminar la tarea idTarea
 
+      //Metodo 1: forEach + splice
+      // listaDeTareas.forEach((tarea, index) => {
+      //   if(tarea.id == idTarea){
+      //     listaDeTareas.splice(index,1);
+      //   }
+      // });
+
+      //Metodo 2: findIndex
+      //   const index = listaDeTareas.findIndex( tarea => tarea.id == idTarea);
+      //   listaDeTareas.splice(index,1);
+      //   mostrarTareas();
+      // }
+
+      // Metodo 3: usando Filter (recuerda que cambiamos de const a let en listaDeTareas)
+      listaDeTareas = listaDeTareas.filter(tarea => tarea.id != idTarea);
+    }
+2
       function completarTarea(idTarea) {
-        alert("Completando tarea: " + idTarea);
-        // modificar mi lista, y cambiar el booleano de true a false, o de false a true en la tarea específica
+        // alert("Completando tarea: " + idTarea);
+
+        // 1. Busca el elemento con el id deseado, t hace referencia a todas las tareas
+        const tarea = listaDeTareas.find((t) => t.id == idTarea);
+
+        // 2. Marcar o desmarcar isCompletada
+        if (tarea.isCompletada == true) {
+          tarea.isCompletada = false;
+        } else {
+          tarea.isCompletada = true;
+        }
 
         mostrarTareas();
       }
@@ -272,6 +297,8 @@
       // -----------------------------------------------
 
       mostrarTareas();
-    </script>
-  </body>
+    
+  </script>
+</body>
+
 </html>

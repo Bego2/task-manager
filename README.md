@@ -16,6 +16,26 @@ En un nuevo repositorio (todo-app):
 
 7. Crear las funciones y métodos para cada botón.
 
+
+7.1. 
+```js  
+    //Metodo 1: forEach + splice
+      listaDeTareas.forEach((tarea, index) => {
+        if(tarea.id == idTarea){
+          listaDeTareas.splice(index,1);
+        }
+      });
+
+      //Metodo 2: findIndex
+      const index = listaDeTareas.findIndex( tarea => tarea.id == idTarea);
+      listaDeTareas.splice(index,1);
+      mostrarTareas();
+    
+
+    // Metodo 3: usando Filter (recuerda que cambiamos de const a let en listaDeTareas)
+    listaDeTareas = listaDeTareas.filter(tarea => tarea.id != idTarea);
+
+```
 8. Menu: implementar lo visto en clase de Tabs para el menu
 
 9. Perfil: implementar lo visto en clase de Acordeón para crear un Perfil
