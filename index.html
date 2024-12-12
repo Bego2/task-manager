@@ -23,8 +23,8 @@
         font-family: poppins;
         color: green;
       }
-      
-        .Menu {
+
+      .Menu {
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -42,14 +42,14 @@
         font-size: 1.2rem;
         border: none;
         background-color: rgb(193, 209, 11);
-        
+        cursor: pointer;
       }
 
       .Body {
         display: flex;
         flex-direction: column;
         height: 100vh;
-        background-color:rgb(249, 253, 207);
+        background-color: rgb(249, 253, 207);
       }
 
       .H1 {
@@ -63,38 +63,73 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-       
-        margin: 3rem 0rem; 
+
+        margin: 3rem 0rem;
         gap: 1rem;
       }
 
-
       .Lista {
         margin: 1rem;
-        
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        gap: 1rem;
       }
 
-
-
-      .Form-add {
-    background-color: green;
-    color: aliceblue;
-} 
-
-    .Btn-delete {
+      .Btn-delete {
         background-color: rgb(255, 244, 244);
         border: none;
         width: 1.4rem;
         height: 1.4em;
         border-radius: 1.2rem;
         margin-right: 1rem;
-    }
+        cursor: pointer;
+      }
 
-    .Btn-checked {
-        width: 1.4rem;
-        height: 1.4em;
-    }
+      .Btn-checkbox {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+       background-color: white;  
+        border: 1px solid #4CAF50;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+      }
 
+      .Btn-checkbox:checked {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #4CAF50;  
+        border: none;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .Form-btn {
+        font-weight: bold;
+        background-color: green;
+        color: rgb(255, 255, 255);
+        padding: 0.5rem;
+        border-radius: 1.2rem;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+        cursor: pointer;
+      }
+
+      .Form-write {
+        width: 18rem;
+        font-style: italic;
+        background-color: rgb(255, 255, 255);
+        color: rgb(85, 85, 85);
+        padding: 0.5rem;
+        border-radius: 1.2rem;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+        cursor: pointer;
+      }
     </style>
   </head>
 
@@ -117,9 +152,10 @@
           id="txtTarea"
           type="text"
           name="tuTarea"
-          placeholder="Ingrese una tarea"
+          placeholder="Add your task"
+          class="Form-write"
         />
-        <button type="submit" class="Form-add">Add</button>
+        <button type="submit" class="Form-btn">Add</button>
       </form>
     </main>
 
@@ -135,8 +171,7 @@
       // -----------------------------------------------
       /* 
             Vamos a realizar un ToDo List para prácticar el uso de Objetos y Arrays.
-            Link al manual: 
-            Autor: El profe Tomi.
+        
         */
 
       // -----------------------------------------------
@@ -145,8 +180,6 @@
       const formu = document.getElementById("formTarea");
       const txtTarea = document.getElementById("txtTarea");
       const boxTareas = document.getElementById("listaTareas");
-
-      //const listaDeTareas = ["Ordenar el código JS", "Crear las Funciones", "Probar el programa"];
 
       const listaDeTareas = [
         { id: 1, titulo: "Comprar palomitas", isCompletada: true },
@@ -163,40 +196,33 @@
       // -----------------------------------------------
       // 3. Funciones principales de nuestra web/programa/app
       // -----------------------------------------------
+
       function mostrarTareas() {
-        // borrar todo el contenido de la caja antes de mostrar
+        // borra todo el contenido de la caja antes de mostrar
         boxTareas.innerHTML = "";
 
         // cargamos las nuevas tareas
         listaDeTareas.forEach((tarea) => {
           console.log("Tarea es: ", tarea);
-          // { id: 1,  titulo: "Ordenar el código JS", isCompletada: true  },
 
           const titulo = tarea.titulo;
           const id = tarea.id;
 
-          // convertir esta linea para que isChecked sea igual a "checked" o a  ""
+          // convierte esta linea para que isChecked sea igual a "checked" o a  ""
           const isChecked = tarea.isCompletada ? "checked" : "";
 
-          // if(tarea.isCompletada){
-          //     isChecked = "checked";
-          // } else {
-          //     isChecked = "";
-          // }
-
-          // boxTareas.innerHTML += `<li>${id} ${titulo}</li>`;
           boxTareas.innerHTML += `
                 <li class="Lista">
                     <button onclick="eliminarTarea(${id})" class="Btn-delete">X</button>
 
-                  <input type="checkbox" id="${id}" name="chk_completada" class="Btn-checked" ${isChecked} />
+                  <input type="checkbox" id="${id}" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
 
                     <label for="${id}">${titulo}</label>
 
-                    <button onclick="completarTarea(${id})">Completar</button>
+                  
  
                 </li>
-                `;
+                `; //  <button onclick="completarTarea(${id})">Completar</button>
         });
       }
 
