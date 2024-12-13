@@ -19,10 +19,19 @@
       color: green;
     }
 
-    .Menu {
+    .Body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: rgb(249, 253, 207);
+    }
+
+    
+    .Tabs-buttons {
       display: flex;
       flex-direction: row;
       justify-content: center;
+      align-items: center;
       position: fixed;
       bottom: 0rem;
 
@@ -33,19 +42,28 @@
       background-color: rgb(193, 209, 11);
     }
 
-    .Menu-btn {
+    .Tabs-button {
       font-size: 1.2rem;
       border: none;
       background-color: rgb(193, 209, 11);
       cursor: pointer;
     }
 
-    .Body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      background-color: rgb(249, 253, 207);
-    }
+    .Tabs-contenido {
+            display: none;
+        }
+
+      
+    .u-active {
+            background-color: #fff;
+            border: 1px solid green;
+        }
+
+        .u-visible {
+            display: block;
+        }
+
+    
 
     .H1 {
       display: flex;
@@ -135,6 +153,7 @@
       box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
       cursor: pointer;
     }
+
   </style>
 </head>
 
@@ -144,7 +163,9 @@
   </header>
 
   <main class="Main">
-    <div class="Lista">
+    
+    <div id="pagina1" class="Tabs-contenido u-visible">
+      <div class="Lista">
       <ul id="listaTareas">
         <li>Add your new task</li>
         <!-- <li>Tarea 1</li>
@@ -156,13 +177,32 @@
       <input id="txtTarea" type="text" name="tuTarea" placeholder="Add your task" class="Form-write" />
       <button type="submit" class="Form-btn">Add</button>
     </form>
+
+    </div>
+
+    <div id="pagina2" class="Tabs-contenido">
+      <h2>Página 2</h2>
+      <p>Contenido página 2</p>
+    </div>
+
+    <div id="pagina3" class="Tabs-contenido">
+      <h2>Página 3</h2>
+      <p>Contenido página 3</p>
+    </div>
+
   </main>
 
-  <menu class="Menu">
-    <button class="Menu-btn">To-do</button>
-    <button class="Menu-btn">All</button>
-    <button class="Menu-btn">Profile</button>
+  <menu class="Tabs">
+    <ul class="Tabs-buttons">
+    <li data-tab="pagina1" class="Tabs-button">To-do</li>
+    <li data-tab="pagina2" class="Tabs-button u-active">All</li>
+    <li data-tab="pagina3" class="Tabs-button">Profile</li>
+  </ul>
   </menu>
+
+
+   
+
 
   <script>
     // -----------------------------------------------
@@ -180,12 +220,18 @@
     const txtTarea = document.getElementById("txtTarea");
     const boxTareas = document.getElementById("listaTareas");
 
-    const listaDeTareas = [
+    
+
+    let listaDeTareas = [
       { id: 1, titulo: "Comprar palomitas", isCompletada: true },
       { id: 2, titulo: "Regar las plantas", isCompletada: true },
       { id: 3, titulo: "Conseguir el anillo de Frodo", isCompletada: false }
 
     ];
+
+    const listaBotones = document.querySelectorAll(".Tabs-button");
+    const listaPaginas = document.querySelectorAll(".Tabs-contenido");
+
 
     // -----------------------------------------------
     // 2. Funciones utilitarias (reutilizables)
@@ -214,7 +260,7 @@
                 <li class="Lista">
                   <button onclick="eliminarTarea(${id})" class="Btn-delete" id=deleteBtn> X </button>
 
-                  <input type="checkbox" id="${id} checkedTask" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
+                  <input type="checkbox" id="${id}" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
 
                   <label for="${id}"> (${id}) ${titulo} </label>
                   <button onclick="completarTarea(${id})" class="Btn-complete">Complete</button>
@@ -236,7 +282,8 @@
       // Tarea válida
       txtTarea.value = ""; // limpiar mi input
 
-      const nuevoID = parseInt(Math.random() * 100);
+      const nuevoID = listaDeTareas.length > 0
+                                            ? Math.max(...listaDeTareas.map(tarea => tarea.id)) + 1 : 1;
       const objetoTarea = { id: nuevoID, titulo: nuevaTarea, isCompletada: false }
       listaDeTareas.push(objetoTarea); // push() es para agregar nuevo item a la lista
       mostrarTareas();
@@ -244,27 +291,12 @@
 
 
     function eliminarTarea(idTarea) {
-      alert("Eliminar tarea: " + idTarea);
+      //alert("Eliminar tarea: " + idTarea);
 
-      // Modificar mi lista, y eliminar la tarea idTarea
-
-      //Metodo 1: forEach + splice
-      // listaDeTareas.forEach((tarea, index) => {
-      //   if(tarea.id == idTarea){
-      //     listaDeTareas.splice(index,1);
-      //   }
-      // });
-
-      //Metodo 2: findIndex
-      //   const index = listaDeTareas.findIndex( tarea => tarea.id == idTarea);
-      //   listaDeTareas.splice(index,1);
-      //   mostrarTareas();
-      // }
-
-      // Metodo 3: usando Filter (recuerda que cambiamos de const a let en listaDeTareas)
       listaDeTareas = listaDeTareas.filter(tarea => tarea.id != idTarea);
+      mostrarTareas();
     }
-2
+
       function completarTarea(idTarea) {
         // alert("Completando tarea: " + idTarea);
 
@@ -297,6 +329,37 @@
       // -----------------------------------------------
 
       mostrarTareas();
+
+      
+        //2. Creamos funciones y eventListeners
+        listaBotones.forEach((boton) => {
+            boton.addEventListener("click", () => {
+
+                //data-edad sería boton.dataset.edad
+                const targetId = boton.dataset.tab;
+                const target = document.getElementById(targetId);
+
+                quitarClases();
+                //A target queremos añadirle la clase u-visible
+                target.classList.add("u-visible");
+
+                boton.classList.add("u-active");
+
+            });
+        });
+
+        function quitarClases() {
+
+            listaBotones.forEach(item => {
+                item.classList.remove("u-active");
+            });
+            listaPaginas.forEach(pagina => {
+                pagina.classList.remove("u-visible");
+            });
+        }
+        //3. Inicializamos nuestro programa 
+
+        listaBotones[0].click();
     
   </script>
 </body>
