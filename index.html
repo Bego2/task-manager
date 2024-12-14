@@ -16,7 +16,8 @@
 
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"/>
+      rel="stylesheet"
+    />
 
     <style>
       /* ____________________________ */
@@ -69,8 +70,6 @@
 
         width: 100%;
         height: 4rem;
-
-        /* gap: 6rem; */
         background-color: rgb(193, 209, 11);
       }
 
@@ -97,7 +96,6 @@
       .u-active {
         border: 1px solid green;
         padding: 0.9rem;
-        /* height: 4rem; */
       }
 
       .u-visible {
@@ -121,7 +119,7 @@
         display: flex;
         flex-direction: column;
         align-content: center;
-        margin-top: 5rem;
+        margin-top: 3rem;
       }
 
       .Btn-delete {
@@ -179,7 +177,6 @@
         vertical-align: middle; /* Alinea con los elementos vecinos */
       }
 
-      
       /* ____________________________ */
       /*      FORM DE ENVÍO           */
       /* ____________________________ */
@@ -262,11 +259,25 @@
 
   <body class="Body">
     <main class="Main">
-      <div id="pagina1" class="Tabs-contenido u-visible">
+      <div id="pagina1" class="Tabs-contenido">
         <h2 class="H2">To-do tasks</h2>
+        <div class="Lista">
+          <ul id="listaTareasIncompletas" class="Lista-tareas"></ul>
+        </div>
+
+        <form id="formTarea" class="Form">
+          <input
+            id="txtTarea"
+            type="text"
+            name="tuTarea"
+            placeholder="Add your task"
+            class="Form-write"
+          />
+          <button type="submit" class="Form-btn">Add</button>
+        </form>
       </div>
 
-      <div id="pagina2" class="Tabs-contenido">
+      <div id="pagina2" class="Tabs-contenido u-visible">
         <h2 class="H2">All your tasks</h2>
         <div class="Lista">
           <ul id="listaTareas" class="Lista-tareas">
@@ -374,9 +385,11 @@
       const boxTareas = document.getElementById("listaTareas");
 
       let listaDeTareas = [
-        { id: 1, titulo: "Comprar palomitas", isCompletada: true },
-        { id: 2, titulo: "Regar las plantas", isCompletada: true },
-        { id: 3, titulo: "Conseguir el anillo de Frodo", isCompletada: false },
+        { id: 1, titulo: "Buy popcorn", isCompletada: true },
+        { id: 2, titulo: "Water plants", isCompletada: true },
+        { id: 3, titulo: "Get Frodo's ring", isCompletada: false },
+        { id: 4, titulo: "Dance in the kitchen", isCompletada: false },
+        // { id: 5, titulo: "Read about color theory", isCompletada: false },
       ];
 
       //Tabs
@@ -418,6 +431,8 @@
                 </li>
                 `;
         });
+      
+        mostrarTareasIncompletas();
       }
 
       // -----------------------------------------------
@@ -425,29 +440,39 @@
       // -----------------------------------------------
 
       function agregarTarea() {
-        const nuevaTarea = txtTarea.value.trim(); // value es el texto que pone el user
+        const txtTarea = document.getElementById("txtTarea");
+        const nuevaTarea = txtTarea.value.trim(); // Obtener el texto del input y quitar espacios innecesarios
+
         console.log(nuevaTarea);
 
-        // Tarea inválida (hacemos un return)
-        if (nuevaTarea == "") {
-          alert("Por Favor, ingresa una tarea válida");
+        // Tarea inválida
+        if (nuevaTarea === "") {
+          alert("Por favor, ingresa una tarea válida");
           return;
         }
 
-        // Tarea válida
-        txtTarea.value = ""; // limpiar mi input
+        // Limpiar el input después de agregar una tarea válida
+        txtTarea.value = "";
 
+        // Asignar un nuevo ID basado en el último índice de la lista
         const nuevoID =
           listaDeTareas.length > 0
             ? Math.max(...listaDeTareas.map((tarea) => tarea.id)) + 1
             : 1;
+
+        // Crear el objeto de la nueva tarea
         const objetoTarea = {
           id: nuevoID,
           titulo: nuevaTarea,
           isCompletada: false,
         };
-        listaDeTareas.push(objetoTarea); // push() es para agregar nuevo item a la lista
+
+        // Agregar la nueva tarea a la lista
+        listaDeTareas.push(objetoTarea);
+
+        // Actualizar la visualización de las tareas
         mostrarTareas();
+        mostrarTareasIncompletas();
       }
 
       function eliminarTarea(idTarea) {
@@ -473,13 +498,47 @@
         mostrarTareas();
       }
 
-      //Se destaca y muestra la pestaña activa, se ocultan las demás paginas
+      function filtrarTareasIncompletas() {
+        const tareasIncompletas = listaDeTareas.filter(
+          (tarea) => !tarea.isCompletada
+        );
+        return tareasIncompletas;
+      }
+
+      function mostrarTareasIncompletas() {
+        const tareasIncompletas = filtrarTareasIncompletas();
+        const contenedorIncompletas = document.getElementById(
+          "listaTareasIncompletas"
+        );
+
+        contenedorIncompletas.innerHTML = "";
+
+        // Recorrer las tareas incompletas y mostrarlas
+        tareasIncompletas.forEach((tarea) => {
+          const titulo = tarea.titulo;
+          const id = tarea.id;
+
+          contenedorIncompletas.innerHTML += `
+          <li class="Lista">
+              <button onclick="eliminarTarea(${id})" class="Btn-delete"> 
+                 <span class="material-symbols-outlined Btn-iconDelete"> delete</span> 
+              </button>
+
+               <input type="checkbox" id="${id}" class="Btn-checkbox"/>
+
+            <label class="Label" for="${id}"> (${id}) ${titulo} </label>
+            <button onclick="completarTarea(${id})" class="Btn-complete">Complete</button>
+          </li> `;
+        });
+      }
+
+      //(1) Se destaca y muestra la pestaña activa en el menu y (2) se ocultan las demás paginas
       function quitarClases() {
         listaBotones.forEach((item) => {
-          item.classList.remove("u-active");
+          item.classList.remove("u-active"); //(1)
         });
         listaPaginas.forEach((pagina) => {
-          pagina.classList.remove("u-visible");
+          pagina.classList.remove("u-visible"); //(2)
         });
       }
 
@@ -503,6 +562,11 @@
           quitarClases();
           target.classList.add("u-visible");
           boton.classList.add("u-active");
+
+          // Si la pestaña es "To-do", mostrar solo tareas incompletas
+          if (targetId === "pagina1") {
+            mostrarTareasIncompletas();
+          }
         });
       });
 
