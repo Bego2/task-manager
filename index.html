@@ -1,301 +1,460 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="keywords"
+      content="task manager, task, to-do lists, productivity"
+    />
+    <meta
+      name="description"
+      content="Task manager to edit, delete, create tasks and to-do lists"
+    />
+    <meta name="author" content="Begoña" />
+    <title>To-do app</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="keywords" content="task manager, task, to-do lists, productivity" />
-  <meta name="description" content="Task manager to edit, delete, create tasks and to-do lists" />
-  <meta name="author" content="Begoña" />
-  <title>To-do app</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
-  <style>
-    * {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      font-family: poppins;
-      color: green;
-    }
+    <style>
+      /* ____________________________ */
+      /*      GLOBAL STYLES           */
+      /* ____________________________ */
 
-    .Body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      background-color: rgb(249, 253, 207);
-    }
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-family: poppins;
+        color: green;
+      }
 
-    
-    .Tabs-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      bottom: 0rem;
+      .Body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgb(249, 253, 207);
+      }
 
-      width: 100%;
-      height: 3rem;
+      .H2 {
+        display: flex;
+        justify-content: center;
+        font-size: 1rem;
+        margin-top: 2rem;
+      }
 
-      gap: 2rem;
-      background-color: rgb(193, 209, 11);
-    }
+      .Main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
 
-    .Tabs-button {
-      font-size: 1.2rem;
-      border: none;
-      background-color: rgb(193, 209, 11);
-      cursor: pointer;
-    }
+      /* ____________________________ */
+      /*          TABS MENU           */
+      /* ____________________________ */
 
-    .Tabs-contenido {
-            display: none;
-        }
+      .Tabs-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 0rem;
+        padding: 0rem 1rem;
 
-      
-    .u-active {
-            background-color: #fff;
-            border: 1px solid green;
-        }
+        width: 100%;
+        height: 4rem;
 
-        .u-visible {
-            display: block;
-        }
+        /* gap: 6rem; */
+        background-color: rgb(193, 209, 11);
+      }
 
-    
+      .Tabs-button {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.2rem;
+        border: none;
+        background-color: rgb(193, 209, 11);
+        cursor: pointer;
+        gap: 0.4rem;
+      }
 
-    .H1 {
-      display: flex;
-      justify-content: center;
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
+      .Tabs-contenido {
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
 
-    .Main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      .Tabs-icons {
+        font-size: 2rem;
+      }
 
-      margin: 3rem 0rem;
-      gap: 1rem;
-    }
+      .u-active {
+        border: 1px solid green;
+        padding: 0.9rem;
+        /* height: 4rem; */
+      }
 
-    .Lista {
-      margin: 1rem;
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      gap: 1rem;
-    }
+      .u-visible {
+        display: block;
+      }
 
-    .Btn-delete {
-      background-color: rgb(255, 244, 244);
-      border: none;
-      width: 1.4rem;
-      height: 1.4em;
-      border-radius: 1.2rem;
-      margin-right: 1rem;
-      cursor: pointer;
-    }
+      /* ____________________________ */
+      /*          TASK LIST           */
+      /* ____________________________ */
 
-    .Btn-complete {
-      padding: 0.5rem;
-      border-radius: 1.2rem;
-      border: none;
-      box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
-      cursor: pointer;
-    }
+      .Lista {
+        margin: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        /* justify-content: center; */
+        gap: 1rem;
+      }
 
-    .Btn-checkbox {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: white;
-      border: 1px solid #4CAF50;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-    }
+      .Lista-tareas {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        margin-top: 5rem;
+      }
 
-    .Btn-checkbox:checked {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: #4CAF50;
-      border: none;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-    }
+      .Btn-delete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        width: 1.4rem;
+        height: 1.4rem;
+        border-radius: 50%;
+        /* margin-right: 1rem; */
+        cursor: pointer;
+      }
 
-    .Form-write {
-      width: 18rem;
-      font-style: italic;
-      background-color: rgb(255, 255, 255);
-      color: rgb(85, 85, 85);
-      padding: 0.5rem;
-      border-radius: 1.2rem;
-      border: none;
-      box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
-      cursor: pointer;
-    }
+      .Btn-iconDelete {
+        font-size: 1.2rem;
+        color: rgb(117, 131, 117);
+      }
 
-    .Form-btn {
-      font-weight: bold;
-      background-color: green;
-      color: rgb(255, 255, 255);
+      .Btn-complete {
+        padding: 0.5rem;
+        border-radius: 1.2rem;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+        cursor: pointer;
+        font-size: 0.7rem;
+        
+      }
 
+      .Btn-checkbox {
+        width: 1.3rem;
+        height:   1.3rem;
+        border-radius: 50%;
+        background-color: white;
+        border: 1px solid #4caf50;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        box-sizing: border-box;
+        /* margin-right: 0.6rem; */
+      }
 
-      padding: 0.5rem;
-      border-radius: 1.2rem;
-      border: none;
-      box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
-      cursor: pointer;
-    }
+      .Btn-checkbox:checked {
+        width: 1.3rem;
+        height:   1.3rem;
+        border-radius: 50%;
+        border: 1px solid #4caf50;
+        background-color: #4caf50;
+        border: none;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+      }
 
-  </style>
-</head>
+      .Label {
+        font-size: 0.7rem;
+        line-height: 1rem; /* Coincide con el tamaño de los botones */
+        vertical-align: middle; /* Alinea con los elementos vecinos */
+      }
+      .Form {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
 
-<body class="Body">
-  <header>
-    <h1 class="H1">All your tasks</h1>
-  </header>
+      .Form-write {
+        width: 18rem;
+        font-style: italic;
+        background-color: rgb(255, 255, 255);
+        color: rgb(85, 85, 85);
+        padding: 0.5rem;
+        border-radius: 1.2rem;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+        cursor: pointer;
+      }
 
-  <main class="Main">
-    
-    <div id="pagina1" class="Tabs-contenido u-visible">
-      <div class="Lista">
-      <ul id="listaTareas">
-        <li>Add your new task</li>
-        <!-- <li>Tarea 1</li>
+      .Form-btn {
+        font-weight: bold;
+        background-color: green;
+        color: rgb(255, 255, 255);
+
+        padding: 0.5rem;
+        border-radius: 1.2rem;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(93, 93, 93, 0.3);
+        cursor: pointer;
+      }
+
+      /* ____________________________ */
+      /*          ACORDEON            */
+      /* ____________________________ */
+
+      .Acordeon {
+        margin-top: 5rem;
+      }
+
+      .Acordeon-item {
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 4rem;
+        margin: 1rem 2rem;
+      }
+
+      .Acordeon-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: rgb(255, 208, 189);
+
+        width: 100%;
+        padding: 1rem;
+        font-weight: bold;
+      }
+
+      .Acordeon-content {
+        display: none;
+      }
+
+      .Acordeon-arrow {
+        display: flex;
+        justify-content: center;
+      }
+
+      /* Elementos Activos del acordeon */
+
+      .active .Acordeon-content {
+        display: block;
+      }
+
+      .active .Acordeon-header {
+        background-color: lightsalmon;
+      }
+    </style>
+  </head>
+
+  <body class="Body">
+    <main class="Main">
+      <div id="pagina1" class="Tabs-contenido u-visible">
+        <h2 class="H2">To-do tasks</h2>
+      </div>
+
+      <div id="pagina2" class="Tabs-contenido">
+        <h2 class="H2">All your tasks</h2>
+        <div class="Lista">
+          <ul id="listaTareas" class="Lista-tareas">
+            <li>Add your new task</li>
+            <!-- <li>Tarea 1</li>
                 <li>Tarea 2</li> -->
+          </ul>
+        </div>
+
+        <form id="formTarea" class="Form">
+          <input
+            id="txtTarea"
+            type="text"
+            name="tuTarea"
+            placeholder="Add your task"
+            class="Form-write"
+          />
+          <button type="submit" class="Form-btn">Add</button>
+        </form>
+      </div>
+
+      <div id="pagina3" class="Tabs-contenido">
+        <h2 class="H2">Profile</h2>
+        <div class="Acordeon">
+          <div class="Acordeon-item active">
+            <div class="Acordeon-header">
+              Keep up the amazing work!
+              <span class="material-symbols-outlined Acordeon-arrow">
+                arrow_drop_down_circle
+              </span>
+            </div>
+            <div class="Acordeon-content">
+              Congrats! You've successfully finished 10,884,229 tasks
+            </div>
+          </div>
+
+          <div class="Acordeon-item">
+            <div class="Acordeon-header">
+              Small steps lead to big changes
+              <span class="material-symbols-outlined Acordeon-arrow">
+                arrow_drop_down_circle
+              </span>
+            </div>
+            <div class="Acordeon-content">
+              2 months since you've consistently maintained your yoga and
+              healthy eating habits!
+            </div>
+          </div>
+
+          <div class="Acordeon-item">
+            <div class="Acordeon-header">
+              Remember to celebrate your achivements
+              <span class="material-symbols-outlined Acordeon-arrow">
+                arrow_drop_down_circle
+              </span>
+            </div>
+            <div class="Acordeon-content">
+              How are you going to celebrate this achivement?
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <menu class="Tabs">
+      <ul class="Tabs-buttons">
+        <li data-tab="pagina1" class="Tabs-button">
+          <span class="material-symbols-outlined Tabs-icons">
+            event_upcoming
+          </span>
+          <!-- To-do -->
+        </li>
+
+        <li data-tab="pagina2" class="Tabs-button u-active">
+          <span class="material-symbols-outlined Tabs-icons"> draft </span>
+          <!-- All -->
+        </li>
+
+        <li data-tab="pagina3" class="Tabs-button">
+          <span class="material-symbols-outlined Tabs-icons"> face </span>
+          <!-- Profile -->
+        </li>
       </ul>
-    </div>
+    </menu>
 
-    <form id="formTarea" class="Form">
-      <input id="txtTarea" type="text" name="tuTarea" placeholder="Add your task" class="Form-write" />
-      <button type="submit" class="Form-btn">Add</button>
-    </form>
+    <script>
+      // -----------------------------------------------
+      // 0. Comentarios y documentación
+      // -----------------------------------------------
+      /*  
+          Hemos creado una ToDo List app. Se navega por la app con el menu de la parte inferior (To-do, All, Profile). El menu funciona gracias a este script, por lo que solo tenemos un HTML. 
 
-    </div>
+          El siguiente código programa la lista de tareas que permite agregar, eliminar, completar tareas y mostrar actualizada la lista en cada una de estas interacciones.
 
-    <div id="pagina2" class="Tabs-contenido">
-      <h2>Página 2</h2>
-      <p>Contenido página 2</p>
-    </div>
+          Otra parte importante, es el acordeon del perfil.
 
-    <div id="pagina3" class="Tabs-contenido">
-      <h2>Página 3</h2>
-      <p>Contenido página 3</p>
-    </div>
-
-  </main>
-
-  <menu class="Tabs">
-    <ul class="Tabs-buttons">
-    <li data-tab="pagina1" class="Tabs-button">To-do</li>
-    <li data-tab="pagina2" class="Tabs-button u-active">All</li>
-    <li data-tab="pagina3" class="Tabs-button">Profile</li>
-  </ul>
-  </menu>
-
-
-   
-
-
-  <script>
-    // -----------------------------------------------
-    // 0. Comentarios y documentación
-    // -----------------------------------------------
-    /* 
-          Vamos a realizar un ToDo List para prácticar el uso de Objetos y Arrays.
       
       */
 
-    // -----------------------------------------------
-    // 1. Constantes y Variables
-    // -----------------------------------------------
-    const formu = document.getElementById("formTarea");
-    const txtTarea = document.getElementById("txtTarea");
-    const boxTareas = document.getElementById("listaTareas");
+      // -----------------------------------------------
+      // 1. Constantes y Variables
+      // -----------------------------------------------
+      const formu = document.getElementById("formTarea");
+      const txtTarea = document.getElementById("txtTarea");
+      const boxTareas = document.getElementById("listaTareas");
 
-    
+      let listaDeTareas = [
+        { id: 1, titulo: "Comprar palomitas", isCompletada: true },
+        { id: 2, titulo: "Regar las plantas", isCompletada: true },
+        { id: 3, titulo: "Conseguir el anillo de Frodo", isCompletada: false },
+      ];
 
-    let listaDeTareas = [
-      { id: 1, titulo: "Comprar palomitas", isCompletada: true },
-      { id: 2, titulo: "Regar las plantas", isCompletada: true },
-      { id: 3, titulo: "Conseguir el anillo de Frodo", isCompletada: false }
+      //Tabs
+      const listaBotones = document.querySelectorAll(".Tabs-button");
+      const listaPaginas = document.querySelectorAll(".Tabs-contenido");
 
-    ];
+      //Acordeon
+      const headers = document.querySelectorAll(".Acordeon-header");
+      const items = document.querySelectorAll(".Acordeon-item");
 
-    const listaBotones = document.querySelectorAll(".Tabs-button");
-    const listaPaginas = document.querySelectorAll(".Tabs-contenido");
+      // -----------------------------------------------
+      // 2. Funciones utilitarias (reutilizables)
+      // -----------------------------------------------
 
+      function mostrarTareas() {
+        // borra todo el contenido de la caja antes de mostrar
+        boxTareas.innerHTML = "";
 
-    // -----------------------------------------------
-    // 2. Funciones utilitarias (reutilizables)
-    //      * esto también se suele hacer en un archivo aparte por ej: utils.js
-    // -----------------------------------------------
+        // cargamos las nuevas tareas
+        listaDeTareas.forEach((tarea) => {
+          console.log("Tarea es: ", tarea);
 
-    // -----------------------------------------------
-    // 3. Funciones principales de nuestra web/programa/app
-    // -----------------------------------------------
+          const titulo = tarea.titulo;
+          const id = tarea.id;
 
-    function mostrarTareas() {
-      // borra todo el contenido de la caja antes de mostrar
-      boxTareas.innerHTML = "";
+          // convierte esta linea para que isChecked sea igual a "checked" o a  ""
+          const isChecked = tarea.isCompletada ? "checked" : "";
 
-      // cargamos las nuevas tareas
-      listaDeTareas.forEach((tarea) => {
-        console.log("Tarea es: ", tarea);
-
-        const titulo = tarea.titulo;
-        const id = tarea.id;
-
-        // convierte esta linea para que isChecked sea igual a "checked" o a  ""
-        const isChecked = tarea.isCompletada ? "checked" : "";
-
-        boxTareas.innerHTML += `
+          boxTareas.innerHTML += `
                 <li class="Lista">
-                  <button onclick="eliminarTarea(${id})" class="Btn-delete" id=deleteBtn> X </button>
-
+                  <button onclick="eliminarTarea(${id})" id=deleteBtn class="Btn-delete"> 
+                    <span class="material-symbols-outlined Btn-iconDelete"> delete</span> 
+                  </button>
+ 
                   <input type="checkbox" id="${id}" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
 
-                  <label for="${id}"> (${id}) ${titulo} </label>
+                  <label class="Label" for="${id}"> (${id}) ${titulo} </label>
                   <button onclick="completarTarea(${id})" class="Btn-complete">Complete</button>
                 </li>
                 `;
-      });
-    }
-
-    function agregarTarea() {
-      const nuevaTarea = txtTarea.value.trim(); // value es el texto que pone el user  
-      console.log(nuevaTarea);
-
-      // Tarea inválida (hacemos un return)
-      if (nuevaTarea == "") {
-        alert("Por Favor, ingresa una tarea válida");
-        return;
+        });
       }
 
-      // Tarea válida
-      txtTarea.value = ""; // limpiar mi input
+      // -----------------------------------------------
+      // 3. Funciones principales de nuestra web/programa/app
+      // -----------------------------------------------
 
-      const nuevoID = listaDeTareas.length > 0
-                                            ? Math.max(...listaDeTareas.map(tarea => tarea.id)) + 1 : 1;
-      const objetoTarea = { id: nuevoID, titulo: nuevaTarea, isCompletada: false }
-      listaDeTareas.push(objetoTarea); // push() es para agregar nuevo item a la lista
-      mostrarTareas();
-    }
+      function agregarTarea() {
+        const nuevaTarea = txtTarea.value.trim(); // value es el texto que pone el user
+        console.log(nuevaTarea);
 
+        // Tarea inválida (hacemos un return)
+        if (nuevaTarea == "") {
+          alert("Por Favor, ingresa una tarea válida");
+          return;
+        }
 
-    function eliminarTarea(idTarea) {
-      //alert("Eliminar tarea: " + idTarea);
+        // Tarea válida
+        txtTarea.value = ""; // limpiar mi input
 
-      listaDeTareas = listaDeTareas.filter(tarea => tarea.id != idTarea);
-      mostrarTareas();
-    }
+        const nuevoID =
+          listaDeTareas.length > 0
+            ? Math.max(...listaDeTareas.map((tarea) => tarea.id)) + 1
+            : 1;
+        const objetoTarea = {
+          id: nuevoID,
+          titulo: nuevaTarea,
+          isCompletada: false,
+        };
+        listaDeTareas.push(objetoTarea); // push() es para agregar nuevo item a la lista
+        mostrarTareas();
+      }
+
+      function eliminarTarea(idTarea) {
+        //alert("Eliminar tarea: " + idTarea);
+
+        listaDeTareas = listaDeTareas.filter((tarea) => tarea.id != idTarea);
+        mostrarTareas();
+      }
 
       function completarTarea(idTarea) {
         // alert("Completando tarea: " + idTarea);
@@ -313,55 +472,54 @@
         mostrarTareas();
       }
 
+      //Se destaca y muestra la pestaña activa, se ocultan las demás paginas
+      function quitarClases() {
+        listaBotones.forEach((item) => {
+          item.classList.remove("u-active");
+        });
+        listaPaginas.forEach((pagina) => {
+          pagina.classList.remove("u-visible");
+        });
+      }
+
       // -----------------------------------------------
       // 4. EventListeners
       // -----------------------------------------------
 
-      // escuchamos al evento cuando se envía
+      //FORMULARIO boton de envio
       formu.addEventListener("submit", (event) => {
         // NO envíes el formulario porque quiero hacer cosas antes
         event.preventDefault();
         agregarTarea();
       });
 
-      // -----------------------------------------------
-      // 5. Inicializar nuestro programa
-      // -----------------------------------------------
+      //TABS botones menu
+      listaBotones.forEach((boton) => {
+        boton.addEventListener("click", () => {
+          const targetId = boton.dataset.tab;
+          const target = document.getElementById(targetId);
 
-      mostrarTareas();
-
-      
-        //2. Creamos funciones y eventListeners
-        listaBotones.forEach((boton) => {
-            boton.addEventListener("click", () => {
-
-                //data-edad sería boton.dataset.edad
-                const targetId = boton.dataset.tab;
-                const target = document.getElementById(targetId);
-
-                quitarClases();
-                //A target queremos añadirle la clase u-visible
-                target.classList.add("u-visible");
-
-                boton.classList.add("u-active");
-
-            });
+          quitarClases();
+          target.classList.add("u-visible");
+          boton.classList.add("u-active");
         });
+      });
 
-        function quitarClases() {
+      headers.forEach((header) => {
+        header.addEventListener("click", () => {
+          const item = header.closest(".Acordeon-item");
 
-            listaBotones.forEach(item => {
-                item.classList.remove("u-active");
-            });
-            listaPaginas.forEach(pagina => {
-                pagina.classList.remove("u-visible");
-            });
-        }
-        //3. Inicializamos nuestro programa 
+          //agregar el active a item
+          item.classList.toggle("active");
+        });
+      });
 
-        listaBotones[0].click();
-    
-  </script>
-</body>
-
+      // -----------------------------------------------
+      // 5. Inicializar programa
+      // -----------------------------------------------
+      mostrarTareas();
+      listaBotones[1].click();
+      headers[0].click();
+    </script>
+  </body>
 </html>
