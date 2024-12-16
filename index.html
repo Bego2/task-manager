@@ -415,7 +415,7 @@
           const titulo = tarea.titulo;
           const id = tarea.id;
 
-          // convierte esta linea para que isChecked sea igual a "checked" o a  ""
+        // convierte esta linea para que isChecked sea igual a "checked" o a  ""
           const isChecked = tarea.isCompletada ? "checked" : "";
 
           boxTareas.innerHTML += `
@@ -423,11 +423,12 @@
                   <button onclick="eliminarTarea(${id})" id=deleteBtn class="Btn-delete"> 
                     <span class="material-symbols-outlined Btn-iconDelete"> delete</span> 
                   </button>
- 
+
                   <input type="checkbox" id="${id}" name="chk_completada" class="Btn-checkbox" ${isChecked}/>
 
                   <label class="Label" for="${id}"> (${id}) ${titulo} </label>
-                  <button onclick="completarTarea(${id})" class="Btn-complete">Complete</button>
+                  <button onclick="completarTarea(${id})" class="Btn-complete">
+                  Complete</button>
                 </li>
                 `;
         });
@@ -455,8 +456,7 @@
         txtTarea.value = "";
 
         // Asignar un nuevo ID basado en el último índice de la lista
-        const nuevoID =
-          listaDeTareas.length > 0
+        const nuevoID = listaDeTareas.length > 0
             ? Math.max(...listaDeTareas.map((tarea) => tarea.id)) + 1
             : 1;
 
@@ -477,7 +477,7 @@
 
       function eliminarTarea(idTarea) {
         //alert("Eliminar tarea: " + idTarea);
-
+        // Devuelve la lista completa, pero filtra y saca la tarea que tiene un id distinto de idTarea
         listaDeTareas = listaDeTareas.filter((tarea) => tarea.id != idTarea);
         mostrarTareas();
       }
@@ -494,6 +494,8 @@
         } else {
           tarea.isCompletada = true;
         }
+
+        //tare.isCompletada = !tarea.isCompletada ? false : true; 
 
         mostrarTareas();
       }
@@ -521,10 +523,10 @@
           contenedorIncompletas.innerHTML += `
           <li class="Lista">
               <button onclick="eliminarTarea(${id})" class="Btn-delete"> 
-                 <span class="material-symbols-outlined Btn-iconDelete"> delete</span> 
+                <span class="material-symbols-outlined Btn-iconDelete"> delete</span> 
               </button>
 
-               <input type="checkbox" id="${id}" class="Btn-checkbox"/>
+              <input type="checkbox" id="${id}" class="Btn-checkbox"/>
 
             <label class="Label" for="${id}"> (${id}) ${titulo} </label>
             <button onclick="completarTarea(${id})" class="Btn-complete">Complete</button>
